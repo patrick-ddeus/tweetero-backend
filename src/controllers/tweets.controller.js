@@ -1,7 +1,7 @@
 import * as TweetDatabase from "../database/tweets.database.js";
 
 export const createTweet = (req, res) => {
-    const { username, tweet } = req.body;
+    const { username, tweet } = req.tweet;
     try {
         TweetDatabase.createTweetOnDatabase({ username, tweet });
         res.status(201).send("OK");
@@ -11,7 +11,7 @@ export const createTweet = (req, res) => {
 };
 
 export const getTweets = (req, res) => {
-    const page_index = req.query.page
+    const page_index = req.query.page;
     const tweets = TweetDatabase.getTweetFromDatabase(page_index);
 
     if (tweets.length === 0) {

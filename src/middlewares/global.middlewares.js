@@ -13,8 +13,9 @@ export const validUser = (req, res, next) => {
 };
 
 export const validTweet = (req, res, next) => {
-    const { username, tweet } = req.body;
-
+    const { tweet } = req.body;
+    const { user: username } = req.headers;
+    
     if (!username || !tweet) {
         return res.status(400).send("Todos os campos são obrigatórios!");
     }
@@ -22,6 +23,6 @@ export const validTweet = (req, res, next) => {
     if (typeof username !== "string" || typeof tweet !== "string") {
         return res.status(400).send("Todos os campos são obrigatórios!");
     }
-    req.user = { username, tweet };
+    req.tweet = { username, tweet };
     return next();
 };
