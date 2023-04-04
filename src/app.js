@@ -15,7 +15,6 @@ app.use(express.json());
 app.use("/tweets", TweetRouter);
 app.use("/sign-up", UserRouter);
 
-
-app.listen(process.env.PORTA, () => console.log(`
-    Servidor iniciado em https://${process.env.HOST}:${process.env.PORTA}
+app.listen(process.env.PORT, () => console.log(`
+    Servidor iniciado em https://${process.env.HOST}:${process.env.PORT}
 `));
