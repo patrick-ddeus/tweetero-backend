@@ -1,4 +1,6 @@
-const users = [];
+import fs from "fs";
+
+const users = JSON.parse(fs.readFileSync("./src/database/json/users.json", "utf8")) || [];
 
 const createID = {
     _ID: 0,
@@ -8,9 +10,15 @@ const createID = {
 };
 
 export const insertNewUser = (userBody) => {
-    users.push({ ...userBody, id: createID.ID });
+    const registeredUser = users.find((user) => user.username === userBody.username);
+    if (!registeredUser) {
+        users.push({ ...userBody, id: createID.ID });
+        fs.writeFileSync("./src/database/json/users.json", JSON.stringify(users));
+    } else {
+        throw new Error("UNAUTHORIZED");
+    }
 };
 
 export const getUsersFromDatabase = () => {
-    return [...tweetArray];
+    return [...users];
 };

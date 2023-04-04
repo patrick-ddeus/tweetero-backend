@@ -1,21 +1,21 @@
-import * as DataBase from "../database/tweets.database.js";
+import * as TweetDatabase from "../database/tweets.database.js";
 
 export const createTweet = (req, res) => {
     const { username, tweet } = req.body
 
     if(!username || !tweet){
-        return res.status(400).send("UNAUTHORIZED")
+        return res.status(400).send("Body must contains username and tweet fields!")
     }
 
-    DataBase.createTweetOnDatabase({username, tweet})
+    TweetDatabase.createTweetOnDatabase({username, tweet})
 
     res.status(200).send({username, tweet})
 };
 
 export const getTweets = (req, res) => {
-    const tweets = DataBase.getTweetFromDatabase()
+    const tweets = TweetDatabase.getTweetFromDatabase()
     if(tweets.length === 0){
-        res.status(400).send({"message":"Theres no tweets"})
+        res.status(500).send({"message":"Theres no tweets"})
     }
 
     res.status(200).send(tweets)
