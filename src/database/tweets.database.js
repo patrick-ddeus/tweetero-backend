@@ -1,8 +1,8 @@
 import fs from "fs";
-import { getUsersFromDatabase } from "./users.database.js";
+import UserDatabase from "./users.database.js";
 
 const tweets = JSON.parse(fs.readFileSync("./src/database/json/tweets.json", "utf8")) || [];
-const users = getUsersFromDatabase();
+const users = UserDatabase.getUsersFromDatabase();
 
 export const createTweetOnDatabase = (tweetBody) => {
     const userAlreadyLogged = users.find((user) => user.username === tweetBody.username);
@@ -12,7 +12,6 @@ export const createTweetOnDatabase = (tweetBody) => {
     } else {
         throw new Error("UNAUTHORIZED");
     }
-
 };
 
 export const getTweetFromDatabase = () => {

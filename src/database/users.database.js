@@ -1,24 +1,26 @@
 import fs from "fs";
+import User from "../models/user.model.cjs";
 
-const users = JSON.parse(fs.readFileSync("./src/database/json/users.json", "utf8")) || [];
-
-const createID = {
-    _ID: 0,
-    get ID() {
-        return this._ID++;
+class UserDatabase {
+    constructor() {
+        this.users = JSON.parse(fs.readFileSync("./src/database/json/users.json", "utf8")) || [];
     }
-};
 
-export const insertNewUser = (userBody) => {
-    const registeredUser = users.find((user) => user.username === userBody.username);
-    if (!registeredUser) {
-        users.push({ ...userBody, id: createID.ID });
-        fs.writeFileSync("./src/database/json/users.json", JSON.stringify(users));
-    } else {
-        throw new Error("User already registered!");
-    }
-};
+    insertNewUser = (userBody) => {
+        const registeredUser = this.users.find((user) => user.username === userBody.username);
+        if (!registeredUser) {
+            const createdUser = new User(userBody.username, userBody);
+            this.users.push(createdUser);
+            fs.writeFileSync("./src/database/json/users.json", JSON.stringify(this.users));
+        } else {
+            throw new Error("User already registered!");
+        }
+    };
 
-export const getUsersFromDatabase = () => {
-    return [...users];
-};
+    getUsersFromDatabase = () => {
+        return [...this.users];
+    };
+    
+}
+
+export default new UserDatabase
