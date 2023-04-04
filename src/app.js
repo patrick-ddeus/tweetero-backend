@@ -1,14 +1,21 @@
+/* eslint-disable no-undef */
 import express from "express";
+import cors from "cors";
 import TweetRouter from "./routes/tweets.route.js";
 import UserRouter from "./routes/users.route.js";
-const app = express();
-const porta = 5000;
+import dotenv from "dotenv";
 
+const app = express();
+
+dotenv.config();
+
+app.use(cors());
 app.use(express.json());
 
 app.use("/tweets", TweetRouter);
 app.use("/sign-up", UserRouter);
 
-app.listen(porta, () => console.log(`
-    Servidor iniciado na porta ${porta}
+
+app.listen(process.env.PORTA, () => console.log(`
+    Servidor iniciado em https://${process.env.HOST}:${process.env.PORTA}
 `));

@@ -25,7 +25,7 @@ export const getTweetsByUsername = (req, res) => {
     const tweets = TweetDatabase.getTweetFromDatabaseByUsername(username);
     if (tweets.length > 0) {
         res.status(200).send(tweets);
-    } else{
+    } else {
         res.status(200).send([]);
     }
 };
