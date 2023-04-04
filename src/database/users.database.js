@@ -9,7 +9,7 @@ class UserDatabase {
     insertNewUser = (userBody) => {
         const registeredUser = this.users.find((user) => user.username === userBody.username);
         if (!registeredUser) {
-            const createdUser = new User(userBody.username, userBody);
+            const createdUser = new User(userBody.username, userBody.avatar);
             this.users.push(createdUser);
             fs.writeFileSync("./src/database/json/users.json", JSON.stringify(this.users));
         } else {

@@ -11,10 +11,11 @@ export const createTweet = (req, res) => {
 };
 
 export const getTweets = (req, res) => {
-    const tweets = TweetDatabase.getTweetFromDatabase();
+    const page_index = req.query.page
+    const tweets = TweetDatabase.getTweetFromDatabase(page_index);
 
     if (tweets.length === 0) {
-        return res.status(400).send([]);
+        return res.status(200).send([]);
     }
 
     res.status(200).send(tweets);

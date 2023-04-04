@@ -14,9 +14,12 @@ export const createTweetOnDatabase = (tweetBody) => {
     }
 };
 
-export const getTweetFromDatabase = () => {
-    const lastTenTweets = tweets?.slice(-10);
-    return [...lastTenTweets];
+export const getTweetFromDatabase = (page_index) => {
+    const PAGE_SIZE = 10
+    const startIndex = page_index === 1 ? tweets.length - PAGE_SIZE : (page_index - 1) * PAGE_SIZE
+    const endIndex = startIndex + PAGE_SIZE
+    const lastTweets = tweets?.slice(startIndex, endIndex);
+    return [...lastTweets];
 };
 
 export const getTweetFromDatabaseByUsername = (username) => {

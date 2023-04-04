@@ -11,17 +11,16 @@ class User {
 
     static createId = () => {
         const usersFilePath = path.join(__dirname, "../database/json/users.json");
+
         try {
             const fileContents = fs.readFileSync(usersFilePath);
             const users = JSON.parse(fileContents);
-
-            const lastUserId = users.length > 0 ? users[users.length - 1].id : 0;
+            const lastUserId = users.length > 0 ? users.pop().id : 0;
             const newUserId = lastUserId + 1;
-
             return newUserId;
         } catch (err) {
             fs.writeFileSync(usersFilePath, []);
-            return 0;
+            return 0
         }
     };
 }
