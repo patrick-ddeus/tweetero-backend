@@ -1,4 +1,4 @@
-import * as DataBase from "../database/db.js";
+import * as DataBase from "../database/tweets.database.js";
 
 export const createTweet = (req, res) => {
     const { username, tweet } = req.body
