@@ -1,17 +1,14 @@
-import UserDatabase from "../database/users.database.js";
+import * as UserDatabase from "../database/users.database.js";
 
-class UserController {
-    createNewUser = (req, res) => {
-        const user = req.user;
-        try {
-            if (user) {
-                UserDatabase.insertNewUser(user);
-                res.status(201).send("OK");
-            }
-        } catch (err) {
-            res.status(500).send({ message: err.message });
+export const createNewUser = (req, res) => {
+    const user = req.user;
+
+    try {
+        if (user) {
+            UserDatabase.insertNewUser(user);
+            res.status(201).send("OK");
         }
-    };
-}
-
-export default new UserController
+    } catch (err) {
+        res.status(500).send({ message: err.message });
+    }
+};

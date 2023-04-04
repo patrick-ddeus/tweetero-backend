@@ -1,26 +1,32 @@
 import fs from "fs";
 import User from "../models/user.model.cjs";
 
-class UserDatabase {
-    constructor() {
-        this.users = JSON.parse(fs.readFileSync("./src/database/json/users.json", "utf8")) || [];
-    }
+const USERS_FILE = "./src/database/json/users.json";
 
-    insertNewUser = (userBody) => {
-        const registeredUser = this.users.find((user) => user.username === userBody.username);
-        if (!registeredUser) {
-            const createdUser = new User(userBody.username, userBody.avatar);
-            this.users.push(createdUser);
-            fs.writeFileSync("./src/database/json/users.json", JSON.stringify(this.users));
-        } else {
-            throw new Error("User already registered!");
-        }
-    };
+let users = [];
 
-    getUsersFromDatabase = () => {
-        return [...this.users];
-    };
-    
+try {
+    const usersData = fs.readFileSync(USERS_FILE, "utf8");
+    users = JSON.parse(usersData);
+} catch (err) {
+    console.error(`Erro ao ler arquivo de usuários: ${err.message}`);
 }
 
-export default new UserDatabase
+export const insertNewUser = (userBody) => {
+    const { username, avatar } = userBody;
+
+    if (users.some((user) => user.username === username)) {
+        throw new Error("User already registered!");
+    }
+
+    const newUser = new User(username, avatar);
+    users.push(newUser);
+
+    fs.writeFileSync(USERS_FILE, JSON.stringify(users));
+
+    return newUser;
+};
+
+export const getUsersFromDatabase = () => {
+    return [...users];
+};

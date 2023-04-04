@@ -1,28 +1,45 @@
 import fs from "fs";
-import UserDatabase from "./users.database.js";
+import * as UserDatabase from "./users.database.js";
 
-const tweets = JSON.parse(fs.readFileSync("./src/database/json/tweets.json", "utf8")) || [];
+const TWEETS_FILE_PATH = "./src/database/json/tweets.json";
+
+let tweets = []
+
+try {
+    const tweetsData = fs.readFileSync(TWEETS_FILE_PATH, "utf8");
+    tweets = JSON.parse(tweetsData);
+} catch (err) {
+    console.error(`Erro ao ler arquivo dos tweets: ${err.message}`);
+}
+
 const users = UserDatabase.getUsersFromDatabase();
 
 export const createTweetOnDatabase = (tweetBody) => {
-    const userAlreadyLogged = users.find((user) => user.username === tweetBody.username);
-    if (userAlreadyLogged) {
-        tweets.push({ ...tweetBody, avatar: userAlreadyLogged.avatar });
-        fs.writeFileSync("./src/database/json/tweets.json", JSON.stringify(tweets));
-    } else {
+    const { username } = tweetBody;
+    const userAlreadyLogged = users.find((user) => user.username === username);
+
+    if (!userAlreadyLogged) {
         throw new Error("UNAUTHORIZED");
     }
+
+    const tweet = { ...tweetBody, avatar: userAlreadyLogged.avatar };
+    tweets.push(tweet);
+    fs.writeFileSync(TWEETS_FILE_PATH, JSON.stringify(tweets));
+
+    return tweet;
 };
 
-export const getTweetFromDatabase = (page_index) => {
+export const getTweetFromDatabase = (pageIndex = 1) => {
     const PAGE_SIZE = 10;
-    const startIndex = page_index === 1 ? tweets.length - PAGE_SIZE : (page_index - 1) * PAGE_SIZE;
+    const startIndex = (pageIndex - 1) * PAGE_SIZE;
     const endIndex = startIndex + PAGE_SIZE;
-    const lastTweets = tweets?.slice(startIndex, endIndex);
-    return [...lastTweets];
+    const tweetsToReturn = tweets.slice(startIndex, endIndex);
+
+    return tweetsToReturn;
 };
 
 export const getTweetFromDatabaseByUsername = (username) => {
-    const usernameTweets = tweets.filter((tweet) => tweet.username === username);
-    return [...usernameTweets];
+    const tweetsByUser = tweets.filter((tweet) => tweet.username === username);
+
+    return tweetsByUser;
 };

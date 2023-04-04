@@ -2,6 +2,7 @@ import * as TweetDatabase from "../database/tweets.database.js";
 
 export const createTweet = (req, res) => {
     const { username, tweet } = req.tweet;
+
     try {
         TweetDatabase.createTweetOnDatabase({ username, tweet });
         res.status(201).send("OK");
@@ -24,6 +25,7 @@ export const getTweets = (req, res) => {
 export const getTweetsByUsername = (req, res) => {
     const username = req.params.username;
     const tweets = TweetDatabase.getTweetFromDatabaseByUsername(username);
+
     if (tweets.length > 0) {
         res.status(200).send(tweets);
     } else {
