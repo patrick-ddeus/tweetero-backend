@@ -15,7 +15,7 @@ export const insertNewUser = (userBody) => {
         users.push({ ...userBody, id: createID.ID });
         fs.writeFileSync("./src/database/json/users.json", JSON.stringify(users));
     } else {
-        throw new Error("UNAUTHORIZED");
+        throw new Error("User already registered!");
     }
 };
 
