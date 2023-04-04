@@ -6,5 +6,6 @@ const router = express.Router()
 
 router.post("/", validTweet, TweetController.createTweet)
 router.get("/", TweetController.getTweets)
+router.get("/:username", TweetController.getTweetsByUsername)
 
 export default router

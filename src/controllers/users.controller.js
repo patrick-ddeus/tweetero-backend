@@ -5,7 +5,7 @@ export const createNewUser = (req, res) => {
     try{
         if (user) {
             UserDatabase.insertNewUser(user);
-            res.status(200).send("OK");
+            res.status(201).send("OK");
         }
     } catch(err){
         res.status(500).send({message: err.message})
