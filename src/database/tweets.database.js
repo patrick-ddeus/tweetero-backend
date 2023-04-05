@@ -12,10 +12,10 @@ try {
     console.error(`Erro ao ler arquivo dos tweets: ${err.message}`);
 }
 
-const users = UserDatabase.getUsersFromDatabase();
-
 export const createTweetOnDatabase = (tweetBody) => {
     const { username } = tweetBody;
+    const users = UserDatabase.getUsersFromDatabase();
+
     const userAlreadyLogged = users.find((user) => user.username === username);
 
     if (!userAlreadyLogged) {
