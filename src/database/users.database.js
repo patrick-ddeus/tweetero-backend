@@ -1,5 +1,5 @@
 import fs from "fs";
-import User from "../models/user.model.cjs";
+import User from "../models/user.model.js";
 
 const USERS_FILE = "./src/database/json/users.json";
 

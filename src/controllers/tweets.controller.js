@@ -12,23 +12,23 @@ export const createTweet = (req, res) => {
 };
 
 export const getTweets = (req, res) => {
-    const page_index = req.query.page;
+    const pageIndex = req.query.page;
 
-    if(page_index < 1){
-        return res.status(400).send("Informe uma página válida!")
+    if (pageIndex < 1) {
+        return res.status(400).send("Informe uma página válida!");
     }
 
-    const tweets = TweetDatabase.getTweetFromDatabase(page_index);
+    const tweets = TweetDatabase.getTweetFromDatabase(pageIndex);
 
     if (tweets.length === 0) {
         return res.status(200).send([]);
     }
 
-    res.status(200).send(tweets);
+    return res.status(200).send(tweets);
 };
 
 export const getTweetsByUsername = (req, res) => {
-    const username = req.params.username;
+    const { username } = req.params;
     const tweets = TweetDatabase.getTweetFromDatabaseByUsername(username);
 
     if (tweets.length > 0) {
