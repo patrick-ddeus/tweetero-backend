@@ -13,6 +13,11 @@ export const createTweet = (req, res) => {
 
 export const getTweets = (req, res) => {
     const page_index = req.query.page;
+
+    if(page_index < 1){
+        return res.status(400).send("Informe uma página válida!")
+    }
+
     const tweets = TweetDatabase.getTweetFromDatabase(page_index);
 
     if (tweets.length === 0) {
