@@ -41,5 +41,5 @@ export const getTweetFromDatabase = (pageIndex = 1) => {
 export const getTweetFromDatabaseByUsername = (username) => {
     const tweetsByUser = tweets.filter((tweet) => tweet.username === username);
 
-    return tweetsByUser;
+    return tweetsByUser || [];
 };
