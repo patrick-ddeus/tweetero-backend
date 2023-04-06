@@ -15,9 +15,9 @@ try {
 export const insertNewUser = (userBody) => {
     const { username, avatar } = userBody;
 
-    if (users.some((user) => user.username === username)) {
-        throw new Error("User already registered!");
-    }
+    // if (users.some((user) => user.username === username)) {
+    //     throw new Error("User already registered!");
+    // }
 
     const newUser = new User(username, avatar);
     users.push(newUser);
